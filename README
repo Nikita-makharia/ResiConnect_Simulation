@@ -1,0 +1,4 @@
+ResiConnect-Simulation
+
+Simulator in Python attempting to re-create 'A Scalable AWGR-Based Optical Switch' (Paper can be found here: https://ieeexplore.ieee.org/document/7270992), and it's extension Resi-Connect.
+Simulates the Fault Detection and Traffic Steering Mechanism described in ResiConnect.
