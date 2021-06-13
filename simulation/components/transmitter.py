@@ -71,9 +71,15 @@ class Transmitter:
         """
         logger.info(f"[Packet {pkt.pktId}] : Scheduled for dispatch from Transmitter {self.transmitterId}")
         if pkt.dispatchSlot in self.transmissions.keys():
-            self.transmissions[pkt.dispatchSlot] += 1
+            if pkt.dest in self.transmissions[pkt.dispatchSlot]:
+                self.transmissions[pkt.dispatchSlot][pkt.dest] += 1
+            else:
+                self.transmissions[pkt.dispatchSlot][pkt.dest] = 1
+            self.transmissions[pkt.dispatchSlot]['count'] += 1
         else:
-            self.transmissions[pkt.dispatchSlot] = 1
+            self.transmissions[pkt.dispatchSlot] = {}
+            self.transmissions[pkt.dispatchSlot]['count'] = 1
+            self.transmissions[pkt.dispatchSlot][pkt.dest] = 1
         self.sendPacket(pkt)
 
     def sendPacket(self, pkt):
@@ -102,7 +108,34 @@ class Transmitter:
         for slot in reversed(self.transmissions.keys()):
             if slot < current_slot - k:
                 break
-            ret += self.transmissions[slot]
+            ret += self.transmissions[slot]['count']
+            iter_ctr += 1
+            if iter_ctr == k:
+                break
+
+        return ret
+
+    def pairwiseTransmissionCount(self, current_slot, k):
+        """ Return the count of packets transmitted in the last k
+        timeslots, paired by the destination receiver.
+
+        Args:
+            current_slot (int): the current timeslot that is running
+            k (int): the number of latest timeslots to examine
+        """
+        iter_ctr = 0
+        ret = {}
+        ret['count'] = 0
+        for slot in reversed(self.transmissions.keys()):
+            if slot < current_slot - k:
+                break
+            for k in self.transmissions[slot].keys():
+                if k == 'count':
+                    ret['count'] += self.transmissions[slot][k]
+                elif k in ret.keys():
+                    ret[k] += self.transmissions[slot][k]
+                else:
+                    ret[k] = self.transmissions[slot][k]
             iter_ctr += 1
             if iter_ctr == k:
                 break
