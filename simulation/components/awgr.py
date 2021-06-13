@@ -5,7 +5,7 @@ This file contains definitions for the AWGR Class
 used for the simulator
 """
 
-# from core.logger import logger
+from core.logger import logger
 
 class AWGR:
     """Definition of the AWGR class which plays the role of a AWGR

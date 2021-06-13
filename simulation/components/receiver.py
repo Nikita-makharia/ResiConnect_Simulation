@@ -50,7 +50,7 @@ class Receiver:
             # Enable these loggers if needed. Latency logger generates an additional '--Latency.log' containing
             # packet id and the latency for the packet
             # receive_logger creates addition '--Throughput.log' showing packet and the timeslot in which it was received
-            # self.network.last_received_slot = (pkt.arrivalTime + pkt.schedulingDelay + pkt.propagationDelay) / 1200
-            # latency_logger.info(f"[Packet {pkt.pktId}], {pkt.totalDelay()}")
-            # receive_logger.info(f"{pkt.dest}, {(pkt.arrivalTime + pkt.schedulingDelay + pkt.propagationDelay) / 1200}")
+            self.network.last_received_slot = (pkt.arrivalTime + pkt.schedulingDelay + pkt.propagationDelay) / 1200
+            latency_logger.info(f"[Packet {pkt.pktId}], {pkt.totalDelay()}")
+            receive_logger.info(f"{pkt.dest}, {(pkt.arrivalTime + pkt.schedulingDelay + pkt.propagationDelay) / 1200}")
         pass
