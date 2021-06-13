@@ -245,7 +245,7 @@ class Controller:
         recvRedirection = False
         for i in range(len(alts)):
             if i != (pkt.src % self.n): #other than T(i, j)
-                if recv_free_sum > alts[i]:
+                if recv_free_sum >= alts[i]:
                     recvRedirection = True
                     break
 
